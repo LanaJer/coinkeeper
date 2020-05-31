@@ -60,6 +60,7 @@ def show_main_menu():
             "Main menu:\n"
             "1. Add record\n"
             "2. Print all records\n"
+            "3. Print between dates\n"
             "q. Quit\n> ")
         if choice == str(1):
             add_expense()
