@@ -1,5 +1,7 @@
 import psycopg2
 
+from datetime import timedelta, datetime
+
 conn = psycopg2.connect(database="coinkeeper", user="postgres", password="postgres", host="localhost", port=5432)
 
 
@@ -53,6 +55,21 @@ def show_expenses():
     print(f'Total: {total_amount:.2f}')
 
 
+def total_between_dates():
+    """Сумма расходов между двумя датами по категориям."""
+    msg_1 = input('Please enter first date:')
+    first_date = msg_1
+    msg_2 = input('Please enter second date:')
+    second_date = msg_2
+    sql = f"""SELECT e.amount, c.name, e.date FROM expense e JOIN category c on e.category_id = c.id 
+            WHERE e.date BETWEEN '{first_date}' AND '{second_date}' """
+
+    with conn.cursor() as cur:
+        cur.execute(sql)
+        expenses_between_dates = cur.fetchall()
+    print(sum(x[0] for x in expenses_between_dates))
+
+
 def show_main_menu():
     """Показ главного меню."""
     while True:
@@ -66,6 +83,8 @@ def show_main_menu():
             add_expense()
         elif choice == str(2):
             show_expenses()
+        elif choice == str(3):
+            total_between_dates()
         elif choice == 'q':
             print('Thank you for using Coinkeeper!')
             break
