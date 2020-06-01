@@ -61,6 +61,7 @@ def total_between_dates():
     first_date = msg_1
     if first_date == '':
         first_date = datetime.now() - timedelta(days=30)
+        first_date = first_date.replace(hour=0, minute=0, second=0,microsecond=0)
     msg_2 = input('Please enter second date (default now):')
     second_date = msg_2
     if second_date == '':
