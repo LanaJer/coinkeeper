@@ -59,15 +59,29 @@ def total_between_dates():
     """Сумма расходов между двумя датами по категориям."""
     msg_1 = input('Please enter first date:')
     first_date = msg_1
+    if first_date == '':
+        first_date = '2020-05-01'
     msg_2 = input('Please enter second date:')
     second_date = msg_2
+    if second_date == '':
+        second_date = '2020-05-30'
     sql = f"""SELECT e.amount, c.name, e.date FROM expense e JOIN category c on e.category_id = c.id 
             WHERE e.date BETWEEN '{first_date}' AND '{second_date}' """
 
     with conn.cursor() as cur:
         cur.execute(sql)
         expenses_between_dates = cur.fetchall()
-    print(sum(x[0] for x in expenses_between_dates))
+
+    sum_total = 0
+    sum_by_category = {}
+
+    for amount, name, date in expenses_between_dates:
+        sum_total = sum_total + amount
+        if name not in sum_by_category:
+            sum_by_category[name] = 0
+        sum_by_category[name] = sum_by_category[name] + amount
+    print('Sum by category: ', sum_by_category)
+    print('Total: ', sum_total)
 
 
 def show_main_menu():
