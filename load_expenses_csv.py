@@ -1,4 +1,4 @@
-def load_expenses(filename = 'export.csv'):
+def load_expenses_csv(filename ='export.csv'):
     """ Выгрузка из файла расходов по датам и категориям."""
     with open(filename) as f_obj:
         rows = f_obj.readlines()
@@ -21,6 +21,6 @@ def load_expenses(filename = 'export.csv'):
 
 
 if __name__ == '__main__':
-    expense_list = load_expenses()
+    expense_list = load_expenses_csv()
     for d, c, a in expense_list:
         print(d, c, a)
