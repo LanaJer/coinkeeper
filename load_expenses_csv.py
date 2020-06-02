@@ -1,3 +1,6 @@
+from datetime import date
+
+
 def load_expenses_csv(filename ='export.csv'):
     """ Выгрузка из файла расходов по датам и категориям."""
     with open(filename) as f_obj:
@@ -13,9 +16,9 @@ def load_expenses_csv(filename ='export.csv'):
         expense = expense.split('","')
         amount = expense[5]
         category = expense[3]
-        date = expense[0]
-        date = date[1:]
-        item = [date, category, amount]
+        d = expense[0][1:].split('/')
+        expense_date = date(year=int(d[2]), month=int(d[0]),day=int(d[1]))
+        item = [expense_date, category, amount]
         transformed_expenses.append(item)
     return transformed_expenses
 
