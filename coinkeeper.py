@@ -58,7 +58,7 @@ def show_expenses():
 def total_between_dates():
     """Сумма расходов между двумя датами по категориям."""
     msg_1 = input('Please enter first date (default 30 days ago):')
-    first_date = msg_1
+    first_date =    msg_1
     if first_date == '':
         first_date = datetime.now() - timedelta(days=30)
         first_date = first_date.replace(hour=0, minute=0, second=0,microsecond=0)
@@ -67,10 +67,10 @@ def total_between_dates():
     if second_date == '':
         second_date = datetime.now()
     sql = f"""SELECT e.amount, c.name, e.date FROM expense e JOIN category c on e.category_id = c.id 
-            WHERE e.date BETWEEN '{first_date.isoformat()}' AND '{second_date.isoformat()}' """
+            WHERE e.date BETWEEN %s AND %s """
 
     with conn.cursor() as cur:
-        cur.execute(sql)
+        cur.execute(sql, [first_date, second_date])
         expenses_between_dates = cur.fetchall()
 
     sum_total = 0
